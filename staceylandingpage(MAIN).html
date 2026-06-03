@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <title>Stacey — Premium Lifestyle Experience</title>
+
+    <meta name="description" content="Discover Stacey’s warm lifestyle world featuring wellness, fashion, confidence, cozy moments, and premium curated visual experiences." />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Stacey — Premium Lifestyle Experience" />
+    <meta property="og:description" content="Warm aesthetics, fashion, wellness, confidence, and beautiful everyday moments." />
+    <meta property="og:type" content="website" />
+
+    <!-- External CSS Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Separated Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body class="hero-bg relative">
+
+    <!--
+        ================================================================
+        BACKGROUND DECORATION
+        ================================================================
+    -->
+    <div class="blob top-0 left-[-10%] opacity-60"></div>
+    <div class="blob bottom-[10%] right-[-5%] opacity-40" style="animation-delay: -5s; width: 600px; height: 600px;"></div>
+    <div class="blob top-[40%] left-[20%] opacity-30" style="animation-delay: -10s; width: 400px; height: 400px; background: linear-gradient(135deg, rgba(219,39,119,0.1), rgba(244,114,182,0.1));"></div>
+
+    <!--
+        ================================================================
+        COMPONENT PLACEHOLDERS
+        ================================================================
+        These IDs are used by the JavaScript loader (js/scripts.js)
+        to inject HTML from the 'components/' folder.
+    -->
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50"></nav>
+
+    <main>
+        <div id="hero"></div>
+        <div id="about"></div>
+        <div id="gallery"></div>
+        <div id="features"></div>
+        <div id="testimonials"></div>
+        <div id="links"></div>
+        <div id="cta"></div>
+    </main>
+
+    <div id="footer"></div>
+    <div id="floating-bar"></div>
+
+    <!--
+        ================================================================
+        LIGHTBOX MODAL (Image Zoom View)
+        ================================================================
+        A hidden screen that pops up when you click a gallery image.
+    -->
+    <div id="lightbox" class="fixed inset-0 bg-black/95 hidden flex-col items-center justify-center p-4 md:p-10 z-[1000] cursor-pointer">
+        <!-- Close Button -->
+        <button id="closeLightbox" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <!-- The Image -->
+        <div class="relative max-w-5xl max-h-[85vh] overflow-hidden rounded-xl md:rounded-3xl shadow-2xl">
+            <img id="lightboxImg" src="" alt="Full view" class="w-full h-full object-contain">
+        </div>
+
+        <!-- Caption/Hint -->
+        <p class="mt-6 text-white/50 text-sm tracking-widest uppercase font-light">Click image to zoom • Click background to close</p>
+    </div>
+
+    <!--
+        ================================================================
+        JAVASCRIPT (The Brains)
+        ================================================================
+        Separated script handles component loading and animations.
+    -->
+    <script src="js/scripts.js"></script>
+
+</body>
+</html>
