@@ -1,0 +1,294 @@
+/* 
+   ================================================================
+   [SECTION 1: CORE STYLES]
+   ================================================================
+   These are the basic settings for the entire page, like the 
+   font and background color.
+*/
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff; /* Page background color */
+    overflow-x: hidden;
+    color: #be185d; /* Default pinkish text color */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    text-rendering: optimizeLegibility;
+}
+
+/* 
+   ================================================================
+   [SECTION 2: FLUID TYPOGRAPHY]
+   ================================================================
+   This makes text "stretchy" so it looks good on both phones 
+   and big computer screens.
+*/
+:root {
+    --fluid-h1: clamp(3rem, 10vw, 8rem);
+    --fluid-h2: clamp(2.5rem, 7vw, 5rem);
+    --fluid-h3: clamp(1.75rem, 4vw, 3rem);
+    --max-content-width: 1400px;
+}
+
+/* 
+   ================================================================
+   [SECTION 3: ANIMATIONS]
+   ================================================================
+   These control how things move or fade in.
+*/
+
+/* Floating background blobs animation */
+@keyframes blob-float {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Elements fading and sliding up when page loads */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 
+   ================================================================
+   [SECTION 4: DESIGN COMPONENTS]
+   ================================================================
+   Special effects like blurry backgrounds (Glassmorphism).
+*/
+
+/* The blurry background gradient (The "Hero" section background) */
+.hero-bg {
+    background:
+            radial-gradient(circle at 10% 20%, rgba(244,114,182,0.15), transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(251,207,232,0.2), transparent 45%),
+            radial-gradient(circle at 50% 50%, rgba(255,255,255,1), rgba(255,245,250,1));
+    background-attachment: fixed;
+}
+
+/* Floating blurry circles in the background */
+.blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, rgba(244,114,182,0.2) 0%, rgba(251,207,232,0.2) 100%);
+    filter: blur(80px);
+    border-radius: 50%;
+    z-index: -1;
+    animation: blob-float 20s infinite alternate ease-in-out;
+}
+
+/* Glassmorphism effect (Semi-transparent blurry background) */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* 
+   ================================================================
+   [SECTION 5: HOVER EFFECTS]
+   ================================================================
+   These make the website feel "alive" when you move your mouse.
+*/
+
+/* Hover effect for cards to make them lift up */
+.card-hover {
+    transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 10;
+}
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -12px rgba(244,114,182,0.25);
+    z-index: 20;
+}
+
+/* Zoom effect for images inside cards */
+.image-hover {
+    transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.group:hover .image-hover {
+    transform: scale(1.1);
+}
+
+/* 
+   ================================================================
+   [SECTION 6: LIGHTBOX & GALLERY]
+   ================================================================
+   Styles for the full-screen image pop-up.
+*/
+
+#lightbox {
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#lightbox.hidden {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ensure lightbox always hides even if utility CSS isn't present in embedded documents */
+#lightbox[aria-hidden="true"] {
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#lightbox:not(.hidden) {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+#lightboxImg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: zoom-in;
+}
+#lightboxImg.zoomed {
+    transform: scale(1.8);
+    cursor: zoom-out;
+}
+
+/* Makes text have a pink gradient color */
+.gradient-text {
+    background: linear-gradient(135deg,#db2777,#f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 
+   ================================================================
+   [SECTION 7: NAVIGATION & FLOATING BAR]
+   ================================================================
+*/
+
+/* The underline effect for menu links on hover */
+.nav-link {
+    position: relative;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #db2777, #f472b6);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Styles for the bottom floating bar */
+.floating-bar {
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 1rem env(safe-area-inset-bottom, 16px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.floating-bar.hide {
+    transform: translateY(120%);
+}
+.premium-bar {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 20px 40px -10px rgba(219, 39, 119, 0.15),
+        0 0 1px rgba(0, 0, 0, 0.1);
+}
+.premium-floating-full {
+    display: inline;
+}
+.premium-floating-short {
+    display: none;
+}
+
+/* 
+   ================================================================
+   [SECTION 8: MOBILE OPTIMIZATIONS]
+   ================================================================
+*/
+@media (max-width: 768px) {
+    .premium-floating-btn {
+        /* zoom-like scaling, avoids squeezing text */
+        padding: 0.75rem 1rem !important;
+        min-width: 140px !important;
+        width: auto !important;
+        transform: scale(0.94) !important;
+        transform-origin: center center !important;
+    }
+
+    /* Normal phones (typical Android/iPhone widths): keep full text */
+    .premium-floating-full {
+        display: inline !important;
+    }
+    .premium-floating-short {
+        display: none !important;
+    }
+
+    h1 {
+        font-size: clamp(2.5rem, 15vw, 4rem) !important;
+        letter-spacing: -0.04em !important;
+    }
+
+    section {
+        padding-top: 4rem !important;
+        padding-bottom: 4rem !important;
+    }
+
+    .premium-bar {
+        padding: 0.75rem 1rem !important;
+        border-radius: 24px !important;
+        margin: 0 1rem 1rem 1rem !important;
+        width: calc(100% - 2rem) !important;
+        max-width: calc(100% - 2rem) !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+}
+
+/* Narrow phones and very thin screens */
+@media (max-width: 420px) {
+    .premium-floating-btn {
+        min-width: 110px !important;
+        padding: 0.6rem 0.9rem !important;
+        transform: none !important;
+    }
+    .premium-floating-full {
+        display: none !important;
+    }
+    .premium-floating-short {
+        display: inline !important;
+    }
+}
+
+/* TINIEST SCREENS (iPhone SE / very narrow Android) */
+@media (max-width: 360px) {
+    .premium-floating-btn {
+        min-width: 90px !important;
+        padding: 0.55rem 0.8rem !important;
+    }
+}
+
