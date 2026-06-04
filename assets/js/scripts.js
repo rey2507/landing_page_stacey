@@ -68,12 +68,44 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function loadComponents() {
     const components = [
-        'navbar', 'hero', 'about', 'gallery', 'links', 'footer', 'floating-bar'
+        'navbar',
+        'hero',
+        'about',
+        'gallery',
+        'links',
+        'footer',
+        'floating-bar'
     ];
 
-    for (const component of components) {
-        const element = document.getElementById(component);
-        if (element) {
+    // Load floating bar first to keep it visible on initial render.
+    const floatingBarEl = document.getElementById('floating-bar');
+    if (floatingBarEl) {
+        try {
+            // Fetch + inject without blocking other component work.
+            const floatingBarFile = 'floating-bar';
+            const resp = await fetch(`components/${floatingBarFile}.html`);
+            if (resp.ok) {
+                const html = await resp.text();
+                floatingBarEl.innerHTML = html;
+
+                // Lightweight paint/perf hint after insertion.
+                // (No visual change; only helps browsers keep transforms smooth.)
+                floatingBarEl.style.willChange = 'transform, opacity';
+                floatingBarEl.style.transform = 'translateZ(0)';
+            }
+        } catch (error) {
+            console.warn('Could not load component: floating-bar', error);
+        }
+    }
+
+    // Load remaining components in parallel.
+    const remaining = components.filter((c) => c !== 'floating-bar');
+
+    await Promise.all(
+        remaining.map(async (component) => {
+            const element = document.getElementById(component);
+            if (!element) return;
+
             try {
                 // Determine file name
                 const fileName = component === 'links' ? 'main-links' : component;
@@ -86,9 +118,10 @@ async function loadComponents() {
             } catch (error) {
                 console.warn(`Could not load component: ${component}`, error);
             }
-        }
-    }
+        })
+    );
 }
+
 
 /**
  * NAVIGATION & MOBILE MENU
