@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', () => {
         if (!floatingBar) return;
-        
+
         if (window.scrollY > lastScrollY && window.scrollY > 100) {
             floatingBar.classList.add('hide');
         } else {
