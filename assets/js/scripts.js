@@ -42,9 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
         initGallery();
         // Initialize Nav listeners after components load
         initNav();
+        // 4. ANALYTICS (GA4) - attach click listeners to tracked elements
+        initAnalytics();
     }, 500);
 
     // 3. FLOATING BAR SCROLL BEHAVIOR
+
     // Hides the floating bar when scrolling down, shows when scrolling up
     let lastScrollY = window.scrollY;
     const floatingBar = document.getElementById('floating-bar');
@@ -162,12 +165,75 @@ function initNav() {
 /**
  * GALLERY LIGHTBOX
  */
+function initAnalytics() {
+    // GA4-friendly analytics event wiring.
+    // Attaches a single click handler to every element with [data-analytics].
+    // Resilient to missing elements/components loaded later.
+    const trackedEls = Array.from(document.querySelectorAll('[data-analytics]'));
+
+    trackedEls.forEach((el) => {
+        if (el.dataset.analyticsBound === '1') return;
+        el.dataset.analyticsBound = '1';
+
+        el.addEventListener('click', () => {
+            if (typeof gtag !== 'function') return;
+            const name = el.dataset.analytics;
+            if (!name) return;
+
+            // Use consistent event name for generic button-like clicks.
+            gtag('event', 'button_click', {
+                button_name: name
+            });
+        });
+    });
+
+    // Lightbox open + zoom tracking (separate from generic click wiring)
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    if (lightbox && !lightbox.dataset.analyticsBound) {
+        lightbox.dataset.analyticsBound = '1';
+
+        // Track when the lightbox is shown by the existing gallery logic.
+        const observer = new MutationObserver(() => {
+            if (lightbox.classList.contains('hidden')) return;
+            if (typeof gtag !== 'function') return;
+            gtag('event', 'lightbox_open');
+            observer.disconnect();
+        });
+        observer.observe(lightbox, { attributes: true, attributeFilter: ['class'] });
+
+    }
+
+    if (closeLightbox && !closeLightbox.dataset.analyticsBound) {
+        closeLightbox.dataset.analyticsBound = '1';
+        closeLightbox.addEventListener('click', () => {
+            if (typeof gtag !== 'function') return;
+            gtag('event', 'lightbox_close');
+        });
+    }
+
+    if (lightboxImg && !lightboxImg.dataset.analyticsBound) {
+        lightboxImg.dataset.analyticsBound = '1';
+        lightboxImg.addEventListener('click', () => {
+            if (typeof gtag !== 'function') return;
+            // This event fires after the existing click handler toggles `.zoomed`.
+            gtag('event', 'lightbox_zoom', {
+                zoom_state: lightboxImg.classList.contains('zoomed') ? 'zoomed' : 'unzoomed'
+            });
+        });
+
+    }
+}
+
 function initGallery() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const closeLightbox = document.getElementById('closeLightbox');
 
     if (!lightbox || !lightboxImg) return;
+
 
     // Find all images in the gallery
     const galleryImages = document.querySelectorAll('#gallery img');
