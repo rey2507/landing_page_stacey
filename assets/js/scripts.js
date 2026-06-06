@@ -65,7 +65,8 @@ async function loadComponents() {
         'gallery',
         'links',
         'footer',
-        'floating-bar'
+        'floating-bar',
+        'chat-popup-container'
     ];
 
     // Load floating bar first to keep it visible on initial render.
@@ -98,6 +99,7 @@ async function loadComponents() {
             try {
                 let fileName = component;
                 if (component === 'links') fileName = 'main-links';
+                if (component === 'chat-popup-container') fileName = 'chat-popup';
 
                 const response = await fetch(`components/${fileName}.html`);
 
@@ -253,4 +255,3 @@ function initAnalytics() {
         });
     }
 }
-
