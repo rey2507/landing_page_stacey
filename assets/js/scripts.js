@@ -13,28 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. INITIALIZE COMPONENTS
     loadComponents();
 
-    // 2. SCROLL REVEAL ANIMATION
-    // Makes elements fade and slide up when they come into view
-    const revealCallback = (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    };
-
-    const revealObserver = new IntersectionObserver(revealCallback, {
-        threshold: 0.15
-    });
-
-    // Start observing elements with the 'scroll-reveal' class
-    // (Components load dynamically, so wait for initial injection to finish.)
-    setTimeout(() => {
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            revealObserver.observe(el);
-        });
-    }, 500);
-
     // 3. FLOATING BAR SCROLL BEHAVIOR
     // Hides the floating bar when scrolling down, shows when scrolling up
     let lastScrollY = window.scrollY;
@@ -58,15 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
  * a matching .html file from the 'components/' folder.
  */
 async function loadComponents() {
+        console.log("🚀 loadComponents started");
     const components = [
         'navbar',
         'hero',
         'about',
         'gallery',
         'links',
+        'features',
+        'testimonials',
+        'cta',
         'footer',
         'floating-bar',
-        'chat-popup-container'
     ];
 
     // Load floating bar first to keep it visible on initial render.
@@ -99,16 +80,14 @@ async function loadComponents() {
             try {
                 let fileName = component;
                 if (component === 'links') fileName = 'main-links';
-                if (component === 'chat-popup-container') fileName = 'chat-popup';
-
-                const response = await fetch(`components/${fileName}.html`);
-
-                if (response.ok) {
-                    const html = await response.text();
-                    element.innerHTML = html;
-                } else {
-                    console.warn(`Component failed to load: components/${fileName}.html (status ${response.status})`);
+                const res = await fetch(`components/${fileName}.html`);
+                if (!res.ok) {
+                    console.warn(`Component failed to load: components/${fileName}.html (status ${res.status})`);
+                    return;
                 }
+
+                const html = await res.text();
+                element.innerHTML = html;
             } catch (error) {
                 console.warn(`Could not load component: ${component}`, error);
             }
@@ -119,6 +98,29 @@ async function loadComponents() {
     initNav();
     initGallery();
     initAnalytics();
+    initScrollReveal();
+}
+
+/**
+ * SCROLL REVEAL ANIMATION
+ * Initialized only after all components are in the DOM.
+ */
+function initScrollReveal() {
+    const revealCallback = (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    };
+
+    const revealObserver = new IntersectionObserver(revealCallback, {
+        threshold: 0.15
+    });
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
 }
 
 /**
@@ -255,3 +257,5 @@ function initAnalytics() {
         });
     }
 }
+
+
