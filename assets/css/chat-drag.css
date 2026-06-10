@@ -1,0 +1,49 @@
+/* 6. chat-drag.css - Floating Bubble + Panel Positioning */
+
+/* Ensure the bubble starts anchored to the bottom-right and can be overridden by inline left/top */
+#chatBubble {
+    position: fixed;
+    right: 20px;
+    bottom: 120px;
+    left: auto;
+    top: auto;
+    will-change: left, top, transform;
+    touch-action: none;
+    pointer-events: auto;
+    z-index: 9999;
+    transition: left 0.18s ease, top 0.18s ease, transform 0.18s ease;
+}
+
+/* While dragging, disable transitions and give clearer feedback */
+#chatBubble.dragging {
+    transition: none !important;
+    cursor: grabbing;
+    opacity: 0.98;
+}
+
+/* Helper to explicitly hide bubble when JS wants it hidden */
+#chatBubble.hidden {
+    display: none !important;
+}
+
+/* Chat panel visual states */
+#chatPanel.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#chatPanel.fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    left: 0 !important;
+    top: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Keep the chat root interactive so child elements receive pointer events */
+.chat-root {
+    position: relative;
+    z-index: 9999;
+}

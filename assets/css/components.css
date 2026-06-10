@@ -1,0 +1,51 @@
+/* 
+   ================================================================
+   [SECTION 5: HOVER EFFECTS]
+   ================================================================
+   These make the website feel "alive" when you move your mouse.
+*/
+
+/* Hover effect for cards to make them lift up */
+.card-hover {
+    transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 10;
+}
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -12px rgba(244,114,182,0.25);
+    z-index: 20;
+}
+
+/* Zoom effect for images inside cards */
+.image-hover {
+    transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.group:hover .image-hover {
+    transform: scale(1.1);
+}
+
+/* 
+   ================================================================
+   [SECTION 7: NAVIGATION & FLOATING BAR]
+   ================================================================
+*/
+
+/* The underline effect for menu links on hover */
+.nav-link {
+    position: relative;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #db2777, #f472b6);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+

@@ -1,0 +1,5 @@
+/* NOTE: Existing chat UI styles live in assets/css/chat-popup.css.
+   styles.css no longer contains chat UI after split.
+   This file is intentionally left empty to avoid changing chat UI logic.
+*/
+

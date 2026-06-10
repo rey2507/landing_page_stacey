@@ -1,0 +1,74 @@
+/* 5. chat-cta.css - CTA / External Link Cards */
+
+.chat-cta-message {
+    margin-top: 12px;
+    background: white;
+    border-radius: 20px;
+    padding: 18px;
+    border: 1px solid rgba(219,39,119,.15);
+    box-shadow: 0 10px 25px rgba(219,39,119,.08);
+    animation: offerReveal .4s ease;
+}
+
+.chat-cta-message h4 {
+    margin: 0 0 8px;
+    color: #be185d;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.chat-cta-message p {
+    margin: 0 0 14px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.chat-cta-message a {
+    display: inline-flex;
+    padding: 12px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    font-weight: 700;
+}
+
+.chat-promo {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    color: white;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.chat-promo-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.chat-promo-text {
+    opacity: .95;
+    margin-bottom: 14px;
+    line-height: 1.5;
+}
+
+.chat-promo-button {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: white;
+    color: #db2777;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@keyframes offerReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

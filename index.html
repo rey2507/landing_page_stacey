@@ -46,7 +46,18 @@
     </script>
 
     <!-- Custom Separated Styles -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/chat-base.css">
+    <link rel="stylesheet" href="assets/css/chat-core.css">
+    <link rel="stylesheet" href="assets/css/chat-flow.css">
+    <link rel="stylesheet" href="assets/css/chat-history.css">
+    <link rel="stylesheet" href="assets/css/chat-cta.css">
+    <link rel="stylesheet" href="assets/css/chat-popup.css">
+    <link rel="stylesheet" href="assets/css/chat-drag.css">
+
 
 
 </head>
@@ -63,7 +74,7 @@
     <div class="blob top-[40%] left-[20%] opacity-30" style="animation-delay: -10s; width: 400px; height: 400px; background: linear-gradient(135deg, rgba(219,39,119,0.1), rgba(244,114,182,0.1));"></div>
 
     <!--
-        ================================================================
+        ================================================================s
         COMPONENT PLACEHOLDERS
         ================================================================
         These IDs are used by the JavaScript loader (js/scripts.js)
@@ -88,7 +99,7 @@
 
     <div id="footer"></div>
     <div id="floating-bar" class="floating-bar"></div>
-
+    <div id="chat-popup"></div>
 
 
     <!--
@@ -116,10 +127,13 @@
         ================================================================
         JAVASCRIPT (The Brains)
         ================================================================
-        Separated script handles component loading and animations.
     -->
-    <script src="assets/js/scripts.js"></script>
+<script src="assets/js/chat-panel.js"></script>
+<script src="assets/js/chat-cta.js"></script>
+<script src="assets/js/chat-history.js"></script>
+<script src="assets/js/chat-popup.js"></script>
+<script src="assets/js/scripts.js"></script>
 
 
 </body>
-</html>
+</html>>

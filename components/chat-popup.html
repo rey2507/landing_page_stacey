@@ -1,0 +1,80 @@
+<div id="chatRoot" class="chat-root">
+
+<!-- Floating Bubble -->
+<button id="chatBubble"
+        class="chat-bubble"
+        type="button"
+        aria-label="Open chat with Stacey">
+
+    <div class="chat-avatar">💕</div>
+
+    <div class="chat-preview">
+        <div class="chat-preview-name">Stacey</div>
+        <div class="chat-preview-message">
+            Tap to chat 😊
+        </div>
+    </div>
+
+</button>
+
+<!-- Chat Panel -->
+<div id="chatPanel"
+     class="chat-panel"
+     aria-hidden="true">
+
+    <!-- Header -->
+    <div class="chat-header">
+
+        <div class="chat-header-info">
+
+            <div class="chat-header-avatar">
+                💕
+            </div>
+
+            <div>
+                <div class="chat-header-name">
+                    Stacey
+                </div>
+
+                <div class="chat-header-status">
+                    Online now
+                </div>
+            </div>
+
+        </div>
+
+        <div class="chat-header-actions">
+            <button id="clearChat" class="chat-action-btn" type="button" title="Undo Last Selection">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+            </button>
+            <button id="resetChat" class="chat-action-btn" type="button" title="Restart Conversation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+        </div>
+
+        <button id="closeChat"
+                class="chat-close"
+                type="button"
+                aria-label="Close chat">
+            ✕
+        </button>
+
+    </div>
+
+    <!-- Messages -->
+    <div id="chatMessages"
+         class="chat-messages">
+
+    </div>
+
+    <!-- Suggestions -->
+    <div id="chatSuggestions"
+         class="chat-suggestions">
+    </div>
+
+    <!-- Dynamic CTA Area -->
+    <div id="chatCtaArea"
+         class="chat-cta-area">
+    </div>
+
+</div>

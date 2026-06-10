@@ -1,0 +1,32 @@
+/* 
+   ================================================================
+   [SECTION 1: CORE STYLES]
+   ================================================================
+   These are the basic settings for the entire page, like the 
+   font and background color.
+*/
+body {
+    font-family: 'Inter', sans-serif;
+    background: #ffffff; /* Page background color */
+    overflow-x: hidden;
+    color: #be185d; /* Default pinkish text color */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    text-rendering: optimizeLegibility;
+}
+
+/* 
+   ================================================================
+   [SECTION 2: FLUID TYPOGRAPHY]
+   ================================================================
+   This makes text "stretchy" so it looks good on both phones 
+   and big computer screens.
+*/
+:root {
+    --fluid-h1: clamp(3rem, 10vw, 8rem);
+    --fluid-h2: clamp(2.5rem, 7vw, 5rem);
+    --fluid-h3: clamp(1.75rem, 4vw, 3rem);
+    --max-content-width: 1400px;
+}
+

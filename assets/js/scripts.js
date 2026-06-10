@@ -2,19 +2,12 @@
  * ================================================================
  * STACEY LANDING PAGE - MAIN SCRIPTS
  * ================================================================
- * This file handles:
- * 1. Component Loading (Injecting HTML into the page)
- * 2. Navigation & Mobile Menu
- * 3. Lightbox / Image Zoom
- * 4. Scroll Animations
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. INITIALIZE COMPONENTS
     loadComponents();
 
-    // 3. FLOATING BAR SCROLL BEHAVIOR
-    // Hides the floating bar when scrolling down, shows when scrolling up
+    // Floating bar scroll behavior
     let lastScrollY = window.scrollY;
     const floatingBar = document.getElementById('floating-bar');
 
@@ -26,17 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             floatingBar.classList.remove('hide');
         }
+
         lastScrollY = window.scrollY;
     });
 });
 
 /**
- * LOADS HTML COMPONENTS
- * Finds all divs with an ID in the main file and tries to load
- * a matching .html file from the 'components/' folder.
+ * LOAD COMPONENTS
  */
 async function loadComponents() {
-        console.log("🚀 loadComponents started");
+    console.log("🚀 loadComponents started");
+
     const components = [
         'navbar',
         'hero',
@@ -48,83 +41,101 @@ async function loadComponents() {
         'cta',
         'footer',
         'floating-bar',
+        'chat-popup'
     ];
 
-    // Load floating bar first to keep it visible on initial render.
+    // Load floating bar first
     const floatingBarEl = document.getElementById('floating-bar');
+
     if (floatingBarEl) {
         try {
-            const floatingBarFile = 'floating-bar';
-            const resp = await fetch(`components/${floatingBarFile}.html`);
+            const resp = await fetch(`components/floating-bar.html`);
             if (resp.ok) {
-                const html = await resp.text();
-                floatingBarEl.innerHTML = html;
-
-                // Lightweight paint/perf hint after insertion.
+                floatingBarEl.innerHTML = await resp.text();
                 floatingBarEl.style.willChange = 'transform, opacity';
                 floatingBarEl.style.transform = 'translateZ(0)';
             }
-        } catch (error) {
-            console.warn('Could not load component: floating-bar', error);
+        } catch (err) {
+            console.warn("Floating bar failed", err);
         }
     }
 
-    // Load remaining components in parallel.
-    const remaining = components.filter((c) => c !== 'floating-bar');
+    const remaining = components.filter(c => c !== 'floating-bar');
 
     await Promise.all(
         remaining.map(async (component) => {
-            const element = document.getElementById(component);
-            if (!element) return;
+            const el = document.getElementById(component);
+            if (!el) return;
 
             try {
                 let fileName = component;
                 if (component === 'links') fileName = 'main-links';
+
                 const res = await fetch(`components/${fileName}.html`);
                 if (!res.ok) {
-                    console.warn(`Component failed to load: components/${fileName}.html (status ${res.status})`);
+                    console.warn(`Missing component: ${fileName}`);
                     return;
                 }
 
-                const html = await res.text();
-                element.innerHTML = html;
-            } catch (error) {
-                console.warn(`Could not load component: ${component}`, error);
+                el.innerHTML = await res.text();
+
+            } catch (err) {
+                console.warn(`Error loading ${component}`, err);
             }
         })
     );
 
-    // Verify initialization order: only after ALL component HTML is injected.
+    // Init core modules AFTER DOM injection
     initNav();
     initGallery();
     initAnalytics();
+
+    // Chat boot (safe + bounded)
+    bootChat();
+
     initScrollReveal();
 }
 
 /**
- * SCROLL REVEAL ANIMATION
- * Initialized only after all components are in the DOM.
+ * CHAT BOOT LOADER (FIXED)
+ */
+function bootChat() {
+    let tries = 0;
+
+    const wait = () => {
+        const ready = document.getElementById("chatBubble");
+
+        if (ready && typeof initChatPopup === "function") {
+            initChatPopup();
+            return;
+        }
+
+        if (tries++ > 120) return;
+
+        setTimeout(wait, 50);
+    };
+
+    wait();
+}
+
+/**
+ * SCROLL REVEAL
  */
 function initScrollReveal() {
-    const revealCallback = (entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
             }
         });
-    };
+    }, { threshold: 0.15 });
 
-    const revealObserver = new IntersectionObserver(revealCallback, {
-        threshold: 0.15
-    });
-
-    document.querySelectorAll('.scroll-reveal').forEach(el => {
-        revealObserver.observe(el);
-    });
+    document.querySelectorAll('.scroll-reveal')
+        .forEach(el => observer.observe(el));
 }
 
 /**
- * NAVIGATION & MOBILE MENU
+ * NAV
  */
 function initNav() {
     const menuBtn = document.getElementById('menuBtn');
@@ -147,20 +158,18 @@ function initNav() {
         });
     }
 
-    // Close menu when clicking a link
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            if (mobileMenu) {
-                mobileMenu.style.opacity = '0';
-                mobileMenu.style.pointerEvents = 'none';
-                document.body.classList.remove('menu-open');
-            }
+            if (!mobileMenu) return;
+            mobileMenu.style.opacity = '0';
+            mobileMenu.style.pointerEvents = 'none';
+            document.body.classList.remove('menu-open');
         });
     });
 }
 
 /**
- * GALLERY LIGHTBOX
+ * GALLERY
  */
 function initGallery() {
     const lightbox = document.getElementById('lightbox');
@@ -169,11 +178,7 @@ function initGallery() {
 
     if (!lightbox || !lightboxImg) return;
 
-    // Find all images in the gallery
-    const galleryImages = document.querySelectorAll('#gallery img');
-
-    galleryImages.forEach(img => {
-        img.classList.add('cursor-zoom-in');
+    document.querySelectorAll('#gallery img').forEach(img => {
         img.addEventListener('click', () => {
             lightboxImg.src = img.src;
             lightbox.classList.remove('hidden');
@@ -181,81 +186,40 @@ function initGallery() {
         });
     });
 
-    // Close lightbox
-    const closeAction = () => {
+    const close = () => {
         lightbox.classList.add('hidden');
         document.body.style.overflow = '';
         lightboxImg.classList.remove('zoomed');
     };
 
-    if (closeLightbox) closeLightbox.addEventListener('click', closeAction);
+    closeLightbox?.addEventListener('click', close);
+
     lightbox.addEventListener('click', (e) => {
-        if (e.target !== lightboxImg) closeAction();
+        if (e.target !== lightboxImg) close();
     });
 
-    // Zoom image on click
     lightboxImg.addEventListener('click', (e) => {
         e.stopPropagation();
         lightboxImg.classList.toggle('zoomed');
     });
 }
 
+/**
+ * ANALYTICS
+ */
 function initAnalytics() {
-    // GA4-friendly analytics event wiring.
-    // Attaches a single click handler to every element with [data-analytics].
-    // Resilient to missing elements/components loaded later.
-    const trackedEls = Array.from(document.querySelectorAll('[data-analytics]'));
+    const els = document.querySelectorAll('[data-analytics]');
 
-    trackedEls.forEach((el) => {
-        if (el.dataset.analyticsBound === '1') return;
-        el.dataset.analyticsBound = '1';
+    els.forEach(el => {
+        if (el.dataset.bound === "1") return;
+        el.dataset.bound = "1";
 
         el.addEventListener('click', () => {
             if (typeof gtag !== 'function') return;
-            const name = el.dataset.analytics;
-            if (!name) return;
 
             gtag('event', 'button_click', {
-                button_name: name
+                button_name: el.dataset.analytics
             });
         });
     });
-
-    // Lightbox open + zoom tracking (separate from generic click wiring)
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const closeLightbox = document.getElementById('closeLightbox');
-
-    if (lightbox && !lightbox.dataset.analyticsBound) {
-        lightbox.dataset.analyticsBound = '1';
-
-        // Track when the lightbox is shown by the existing gallery logic.
-        const observer = new MutationObserver(() => {
-            if (lightbox.classList.contains('hidden')) return;
-            if (typeof gtag !== 'function') return;
-            gtag('event', 'lightbox_open');
-            observer.disconnect();
-        });
-        observer.observe(lightbox, { attributes: true, attributeFilter: ['class'] });
-    }
-
-    if (closeLightbox && !closeLightbox.dataset.analyticsBound) {
-        closeLightbox.dataset.analyticsBound = '1';
-        closeLightbox.addEventListener('click', () => {
-            if (typeof gtag !== 'function') return;
-            gtag('event', 'lightbox_close');
-        });
-    }
-
-    if (lightboxImg && !lightboxImg.dataset.analyticsBound) {
-        lightboxImg.dataset.analyticsBound = '1';
-        lightboxImg.addEventListener('click', () => {
-            if (typeof gtag !== 'function') return;
-            gtag('event', 'lightbox_zoom', {
-                zoom_state: lightboxImg.classList.contains('zoomed') ? 'zoomed' : 'unzoomed'
-            });
-        });
-    }
 }
-
-

@@ -1,0 +1,11 @@
+/* 4. chat-history.css - Rollback / Back Interaction UI */
+
+.chat-inline-option.back {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(219, 39, 119, 0.2);
+    color: #db2777;
+    backdrop-filter: blur(4px);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
