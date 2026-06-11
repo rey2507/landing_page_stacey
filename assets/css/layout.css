@@ -93,16 +93,17 @@
     right: 0;
     bottom: 0;
     width: 100%;
-    padding: 0 1rem env(safe-area-inset-bottom, 16px);
+    padding: 0 0 env(safe-area-inset-bottom, 16px);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2000;
+    pointer-events: none; /* Allows interactions with elements behind the transparent wrapper */
 }
 .floating-bar.hide {
-    transform: translateX(-50%) translateY(120%) !important;
+    transform: translateY(120%) !important;
 }
 .premium-bar {
-    width: 100%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 500px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -110,10 +111,13 @@
     align-items: center;
     gap: 0.75rem;
     box-sizing: border-box;
+    pointer-events: auto; /* Re-enables clicks for the buttons */
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(25px) saturate(180%);
     -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.5);
+    will-change: transform;
+    backface-visibility: hidden; /* Fixes flickering on high-refresh Android screens */
     box-shadow: 
         0 20px 40px -10px rgba(219, 39, 119, 0.15),
         0 0 1px rgba(0, 0, 0, 0.1);
@@ -161,9 +165,8 @@
     .premium-bar {
         padding: 0.75rem 1rem !important;
         border-radius: 24px !important;
-        margin: 0 auto 0.5rem auto !important;
-        width: 95% !important;
-        max-width: 400px !important;
+        margin: 0 auto 10px auto !important;
+        width: 92% !important;
         background: rgba(255, 255, 255, 0.9) !important;
         gap: 0.5rem !important;
     }
