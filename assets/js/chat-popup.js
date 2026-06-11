@@ -44,6 +44,11 @@ function initChatPopup() {
         return;
     }
 
+    bubble.setAttribute("data-analytics", "chat_bubble_toggle");
+    closeBtn?.setAttribute("data-analytics", "chat_close");
+    clearBtn?.setAttribute("data-analytics", "chat_rollback");
+    resetBtn?.setAttribute("data-analytics", "chat_reset");
+
     let isDragging = false;
     let dragStarted = false;
     let hasDragged = false;
@@ -153,6 +158,7 @@ function initChatPopup() {
             const btn = document.createElement("button");
             btn.className = "chat-inline-option";
             btn.textContent = data.label;
+            btn.setAttribute("data-analytics", "chat_flow_" + key);
 
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -176,6 +182,7 @@ function initChatPopup() {
         const backBtn = document.createElement("button");
         backBtn.className = "chat-inline-option back";
         backBtn.textContent = "← Back";
+        backBtn.setAttribute("data-analytics", "chat_rollback_inline");
         backBtn.addEventListener("click", () => {
             safeChatExecute(() => window.rollbackLastSelection(), "rollback");
         });

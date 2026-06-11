@@ -98,11 +98,11 @@
     z-index: 2000;
 }
 .floating-bar.hide {
-    transform: translateY(120%);
+    transform: translateX(-50%) translateY(120%) !important;
 }
 .premium-bar {
     width: 100%;
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -134,10 +134,10 @@
     .premium-floating-btn {
         /* zoom-like scaling, avoids squeezing text */
         padding: 0.75rem 1rem !important;
-        min-width: 140px !important;
+        min-width: 130px !important;
         width: auto !important;
-        transform: scale(0.94) !important;
-        transform-origin: center center !important;
+        transform: none !important;
+        font-size: 0.9rem !important;
     }
 
     /* Normal phones (typical Android/iPhone widths): keep full text */
@@ -161,19 +161,21 @@
     .premium-bar {
         padding: 0.75rem 1rem !important;
         border-radius: 24px !important;
-        margin: 0 1rem 1rem 1rem !important;
-        width: calc(100% - 2rem) !important;
-        max-width: calc(100% - 2rem) !important;
+        margin: 0 auto 0.5rem auto !important;
+        width: 95% !important;
+        max-width: 400px !important;
         background: rgba(255, 255, 255, 0.9) !important;
+        gap: 0.5rem !important;
     }
 }
 
 /* Narrow phones and very thin screens */
 @media (max-width: 420px) {
     .premium-floating-btn {
-        min-width: 110px !important;
+        min-width: 100px !important;
         padding: 0.6rem 0.9rem !important;
         transform: none !important;
+        font-size: 0.85rem !important;
     }
     .premium-floating-full {
         display: none !important;
@@ -186,8 +188,7 @@
 /* TINIEST SCREENS (iPhone SE / very narrow Android) */
 @media (max-width: 360px) {
     .premium-floating-btn {
-        min-width: 90px !important;
-        padding: 0.55rem 0.8rem !important;
+        min-width: 85px !important;
+        padding: 0.5rem 0.7rem !important;
     }
 }
-

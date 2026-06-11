@@ -36,7 +36,7 @@ window.showGalleryMessage = function() {
     card.innerHTML = `
         <h4>Private Gallery</h4>
         <p>Exclusive content, extra photos, and private updates.</p>
-        <a href="https://www.fanvue.com/lowkeyhotgirl" target="_blank" rel="noopener">
+        <a href="https://www.fanvue.com/lowkeyhotgirl" target="_blank" rel="noopener" data-analytics="chat_cta_gallery">
             View Gallery
         </a>
     `;
@@ -78,7 +78,7 @@ window.showMembershipMessage = function() {
     card.innerHTML = `
         <h4>Membership</h4>
         <p>Exclusive posts, updates, and extra content.</p>
-        <a href="https://www.patreon.com/cw/lowkeyhotgirl" target="_blank" rel="noopener">
+        <a href="https://www.patreon.com/cw/lowkeyhotgirl" target="_blank" rel="noopener" data-analytics="chat_cta_membership">
             Join Membership
         </a>
     `;
